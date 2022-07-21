@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       imageUrl: {
-        type: Sequelize.STRING.BINARY,
+        type: Sequelize.STRING,
       },
       like: {
         type: Sequelize.INTEGER,

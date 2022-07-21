@@ -63,8 +63,9 @@ class Controller {
     const { username, password } = req.body;
     User.findOne({ where: { username } })
       .then((user) => {
-        let isNewPassword = bcrypt.compareSync(password, user.password);
-        if (isNewPassword) {
+        let isPassword = bcrypt.compareSync(password, user.password);
+        if (isPassword) {
+          req.session.data = user.id;
           res.redirect("/");
         } else {
           res.send(`password salah`);
@@ -79,7 +80,6 @@ class Controller {
 
   static registerPost = (req, res) => {
     const { username, email, password } = req.body;
-    console.log(req.body);
     User.create({ username, email, password })
       .then(() => res.redirect("/login"))
       .catch((error) => res.send(error));
@@ -96,10 +96,8 @@ class Controller {
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
     sampleFile = req.files.sampleFile;
     uploadPath = "./upload/" + sampleFile.name;
-    console.log("====", uploadPath);
     const { id } = req.params;
     const { title, CategoryId } = req.body;
-    console.log(id, req.body);
 
     // Use the mv() method to place the file somewhere on your server
     sampleFile.mv(uploadPath, function (err) {
@@ -130,14 +128,12 @@ class Controller {
       })
       .then((dataProfile) => {
         profile = dataProfile[0];
-        console.log(profile, "ini 1");
         return Photo.findAll({
           include: User,
           where: { UserId: id },
         });
       })
       .then((photo) => {
-        console.log(profile, "ini 2");
         res.render("profile", { category, profile, photo });
       })
       .catch((err) => res.send(err));

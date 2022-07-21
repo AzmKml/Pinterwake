@@ -8,12 +8,19 @@ router.use(express.static("../upload"));
 router.get("/", Controller.home);
 router.get("/categories/:id", Controller.showByCategories);
 
-//LOGIN
-router.get("/login", Controller.login);
-router.post("/login", Controller.loginPost);
 //REGISTER
 router.get("/register", Controller.register);
 router.post("/register", Controller.registerPost);
+
+//LOGIN
+router.get("/login", Controller.login);
+router.post("/login", Controller.loginPost);
+router.use(function (req, res, next) {
+  console.log(new Date().getTime());
+  console.log(req.session);
+  //kalau session ada. berikan parameter yang bisa mengaktifkan vote dan view++
+  next();
+});
 
 //PROFILE
 router.get("/profile/:id", Controller.profilePage);

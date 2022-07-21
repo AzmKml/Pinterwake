@@ -1,8 +1,12 @@
 # / -> homepage
 
 search by title
+
 tampilkan list category => show photo by category(click category)
-tampilkan list photo order by recent upload => thumbnail photo(photo di tampilkan lebih kecil dari aslinya)
+
+~~tampilkan list photo order by recent~~ done
+
+upload => thumbnail photo(photo di tampilkan lebih kecil dari aslinya)
 
 # /register -> user registration (form) (DONE)
 
@@ -15,19 +19,19 @@ checkStatus apakah dia user terdaftar / tidak.
 
 by default enggak ada tombol vote
 
-- tapi masih bisa nambah view
+- ~~tapi masih bisa nambah view~~ done
 
 kalau role == false => (user) maka
 
-- bisa vote
+- ~~bisa vote~~ done
 - bisa nambah view
 - bisa delete photo sendiri
 
 kalau role == true => (admin) maka
 
-- ga bisa vote
+- ~~ga bisa vote~~ done
 - ga nambah view
-- bisa delete photo sendiri & orang lain (moderation)
+- ~~bisa delete photo sendiri & orang lain ~~(moderation) done
 
 ---
 

@@ -7,8 +7,10 @@
     <title>Home</title>
 </head>
 <body>
-    <%= JSON.stringify(photo) %>
-    <form action="/categories/<%= photo.CategoryId %>" method="get">
+    <% if(!photo.length){ %> 
+        <p>photo not found in this category</p>
+        <% }else{ %> 
+    <form action="/categories/<%= photo[0].CategoryId %>" method="get">
       <label for="search"
         ><input type="search" name="search" id="search" placeholder="Search..."
       /></label>
@@ -31,7 +33,7 @@
       <img src="/<%= el.imageUrl %>" height="250px" alt="ini gambar" />
       <p><%= el.title %></p>
     </a>
-    <% }) %>
+    <% })} %>
   
 
 </body>

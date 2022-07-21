@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Photo",
     }
   );
-  Photo.beforeValidate((user, options) => {
+  Photo.beforeCreate((user, options) => {
     user.like = 0
     user.view = 0
   })

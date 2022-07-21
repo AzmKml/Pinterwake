@@ -43,22 +43,24 @@ class Controller {
     const { search } = req.query;
     const { id} = req.params
     let parameter = {
+        where: { CategoryId: id },
       order: [["createdAt", "DESC"]],
       include: { model: Category },
     };
-    
-    
+    console.log(id, search, '=====================');
     if (search) {
-      parameter.where = { title: { [Op.iLike]: `%${search}%` },
-        CategoryId: {id} };
+      parameter.where = { [Op.and]: 
+        [{title: { [Op.iLike]: `%${search}%` },
+        CategoryId: id}] };
     }
     let photo;
     Photo.findAll(parameter)
       .then((data) => {
-        photo = data;
+        photo = data
         return Category.findAll();
       })
       .then((category) => {
+        // res.send(photo)
         res.render("homeByCategories", { photo, category});
       })
   }
@@ -176,8 +178,23 @@ class Controller {
 
   static likePhoto(req, res) {
     const { id } = req.params;
-    Photo.increment({ like: 1 }, { where: { id } })
-      .then(() => res.redirect(`/photo/${id}`))
+    let result;
+    
+    Photo.findOne({
+        where: {id}
+    })
+      .then((data) => {
+        console.log(result, '<<<<<<<');
+        result = data
+        result.view = result.view - 1
+        console.log(result, '>>>>>>>');
+        return Photo.update({view: result.view},
+        {where: {id}}) 
+    })
+    .then((data)=>{
+        return Photo.increment({ like: 1 }, { where: { id } })
+    })
+    .then(()=>res.redirect(`/photo/${id}`))
       .catch((err) => res.send(err));
   }
 
@@ -199,37 +216,6 @@ class Controller {
     })
       .then(() => res.redirect(`/`))
       .catch((err) => res.send(err));
-  }
-
-  static homeByCategory(req, res){
-    const { byCategory, search } = req.query;
-    console.log(byCategory, req.query, '=====');
-    let parameter = {
-      order: [["createdAt", "DESC"]],
-      include: { model: Category },
-    };
-    
-    if(byCategory && search){
-        parameter.where = {
-           [Op.and]: [
-           { search: { [Op.iLike]: `%${search}%` },
-            byCategory: { CategoryId: byCategory }}
-           ]
-         }
-    //  }else if (byCategory) {
-    //   parameter.where = { CategoryId: byCategory };
-    // } else if (search) {
-    //   parameter.where = { title: { [Op.iLike]: `%${search}%` } };
-    }
-    let photo;
-    Photo.findAll(parameter)
-      .then((data) => {
-        photo = data;
-        return Category.findAll();
-      })
-      .then((category) => {
-        res.render("homeByCategories", { photo, category, byCategory });
-      });
   }
 }
 

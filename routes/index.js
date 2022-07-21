@@ -25,10 +25,11 @@ router.use(function (req, res, next) {
 //PROFILE
 router.get("/profile/:id", Controller.profilePage);
 router.post("/profile/:id", Controller.uploadedFile);
-router.get('/profile/:profileId/photo/:photoId/delete', Controller.deletePhoto)
+router.get("/profile/:profileId/photo/:photoId/delete", Controller.deletePhoto);
+router.get("/photo/:id/delete", Controller.deletePhotoAdmin);
 
 //PHOTO
 router.get("/photo/:id", Controller.photoId);
-router.get('/photo/:id/like', Controller.likePhoto)
+router.get("/photo/:id/like", Controller.likePhoto);
 
 module.exports = router;

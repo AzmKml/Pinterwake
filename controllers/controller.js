@@ -8,17 +8,17 @@ class Controller {
   };
 
   static home(req, res) {
-    const { byCategory } = req.query;
-    
+    const { search, byCategory } = req.query;
+
     let parameter = {
       order: [["createdAt", "DESC"]],
       include: { model: Category },
     };
-    
+
     if (byCategory) {
       parameter.where = { CategoryId: byCategory };
-    }else if(search){
-        parameter.where = { title: { [Op.iLike]: `%${search}%` } }
+    } else if (search) {
+      parameter.where = { title: { [Op.iLike]: `%${search}%` } };
     }
     let photo;
     Photo.findAll(parameter)
@@ -51,7 +51,8 @@ class Controller {
       .then((user) => {
         let isPassword = bcrypt.compareSync(password, user.password);
         if (isPassword) {
-          req.session.data = user.id;
+          //role:false -> user | role:true -> admin | role:null -> guest
+          req.session.data = { id: user.id, role: user.role };
           res.redirect("/");
         } else {
           res.send(`password salah`);
@@ -127,43 +128,61 @@ class Controller {
 
   static photoId(req, res) {
     const { id } = req.params;
-    let photo
+    console.log("ini ada");
+    //check if already logged in or not (guest)
+    if (!req.session.data) {
+      req.session.data = { id: null, role: null };
+    }
+    console.log(req.session);
+    let photo, isUser;
     Photo.findAll({
-        include: {model: User},
-        where: {
-            id
-        }
+      include: { model: User },
+      where: {
+        id,
+      },
     })
       .then((data) => {
         photo = data[0];
-        return Photo.increment({view: 1}, { where: { id} })
+        //role:false -> user | role:true -> admin | role:null -> guest
+        if (req.session.data.role === false) {
+          isUser = true;
+        } else if (req.session.data.role === true) {
+          isUser = false;
+        } else if (req.session.data.role === null) {
+          isUser = null;
+        }
+        return Photo.increment({ view: 1 }, { where: { id } });
       })
-      .then(()=>res.render("photo", { photo }))
+      .then(() => res.render("photo", { photo, isUser }))
       .catch((err) => res.send(err));
-
-    
-    
   }
 
-  static likePhoto(req, res){
-    const {id} = req.params
-
-    Photo.increment({like: 1}, { where: { id} })
-    .then(()=>res.redirect(`/photo/${id}`))
-    .catch(err=>res.send(err))
+  static likePhoto(req, res) {
+    const { id } = req.params;
+    Photo.increment({ like: 1 }, { where: { id } })
+      .then(() => res.redirect(`/photo/${id}`))
+      .catch((err) => res.send(err));
   }
 
-  static deletePhoto(req, res){
-    const {profileId, photoId}= req.params
+  static deletePhoto(req, res) {
+    const { profileId, photoId } = req.params;
     console.log(req.params);
     Photo.destroy({
-        where: { id: photoId }
+      where: { id: photoId },
     })
-    .then(()=>res.redirect(`/profile/${profileId}`))
-    .catch((err)=>res.send(err))
+      .then(() => res.redirect(`/profile/${profileId}`))
+      .catch((err) => res.send(err));
   }
 
-  
+  static deletePhotoAdmin(req, res) {
+    const { id } = req.params;
+    console.log(req.params);
+    Photo.destroy({
+      where: { id },
+    })
+      .then(() => res.redirect(`/`))
+      .catch((err) => res.send(err));
+  }
 }
 
 module.exports = Controller;

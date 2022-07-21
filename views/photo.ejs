@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-</head>
-<body>
-    <%= JSON.stringify(photo) %> 
-
-    <img src="/<%= photo.imageUrl %>" width="850px" alt="ini gambar">
-    <p><%= photo.title %> by <a href="/profile/<%= photo.UserId %>"><%= photo.User.username %></a></p>
-    <p><%= photo.like %> Likes</p>
+  </head>
+  <body>
+    <%= JSON.stringify(photo) %>
+    <img src="/<%= photo.imageUrl %>" width="850px" alt="ini gambar" />
+    <p>
+      <%= photo.title %> by
+      <a href="/profile/<%= photo.UserId %>"><%= photo.User.username %></a>
+    </p>
+    <p><%= photo.like %> Likes <%=photo.view%> Views</p>
+    <% if (isUser) { %>
     <a href="/photo/<%= photo.id %>/like">
-        <button>like</button>
+      <button>like</button>
     </a>
-</body>
+    <% } %> <% if (isUser===false) { %>
+    <a href="/photo/<%= photo.id %>/delete">
+      <button>Delete</button>
+    </a>
+    <% } %>
+  </body>
 </html>

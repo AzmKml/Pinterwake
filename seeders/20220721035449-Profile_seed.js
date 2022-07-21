@@ -11,6 +11,11 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
+    let data = require("../data/profiles.json");
+    data.forEach((x) => {
+      x.createdAt = x.updatedAt = new Date();
+    });
+    return queryInterface.bulkInsert("Profiles", data, {});
   },
 
   down(queryInterface, Sequelize) {
@@ -20,5 +25,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    return queryInterface.bulkDelete("Profiles", null, {});
   },
 };

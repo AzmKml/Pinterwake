@@ -6,7 +6,14 @@ class Controller {
   };
 
   static register = (req, res) => {
-    res.render("login");
+    res.render("registration");
+  };
+
+  static registerPost = (req, res) => {
+    const { username, email, password } = req.body;
+    User.create({ username, email, password, role: false })
+      .then(() => res.redirect("/login"))
+      .catch((error) => res.send(error));
   };
 }
 

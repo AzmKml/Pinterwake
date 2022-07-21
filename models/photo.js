@@ -15,17 +15,41 @@ module.exports = (sequelize, DataTypes) => {
   }
   Photo.init(
     {
-      title: DataTypes.STRING,
-      imageUrl: DataTypes.STRING.BINARY,
-      like: DataTypes.INTEGER,
-      view: DataTypes.INTEGER,
-      UserId: DataTypes.INTEGER,
-      CategoryId: DataTypes.INTEGER,
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: `Title cannot be empty` },
+        }
+      },
+      imageUrl: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: `Image cannot be empty` },
+        }
+      },
+      like: {
+        type: DataTypes.INTEGER
+      },
+      view: {
+        type: DataTypes.INTEGER
+      },
+      UserId: {
+        type: DataTypes.INTEGER
+      },
+      CategoryId: {
+        type: DataTypes.INTEGER
+      },
     },
     {
       sequelize,
       modelName: "Photo",
     }
   );
+  Photo.beforeValidate((user, options) => {
+    user.like = 0
+    user.view = 0
+  })
   return Photo;
 };

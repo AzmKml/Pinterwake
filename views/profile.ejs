@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    <p>Profile Name: </p>
+    <p>Bio :</p>
+    <p>Total likes</p>
+    <p>Total Views</p>
+    <p>List Photo</p>
+
+    
+    <form ref='uploadForm' 
+    id='uploadForm' 
+    action='/profile/1' 
+    method='post' 
+    encType="multipart/form-data">
+    <label for="title">Title: </label><br>
+    <input type="text" name="title" id="title"/><br><br>
+      <input type="file" name="sampleFile" /><br><br>
+      <label for="CategoryId">Category</label><br>
+      <select name="CategoryId" id="CategoryId" >
+        <option selected hidden disabled>--Select--</option>
+        <% category.forEach(el => { %> 
+            <option value="<%= el.id %>"><%= el.name %></option>
+        <% }); %> 
+      </select><br><br>
+      <input type='submit' value='Submit' />
+    </form>
+    <%= JSON.stringify(photo) %> 
+    <% photo.forEach(el => { %>
+        <img src="<%= el.imageUrl %>" alt="ini gambar">
+    <% }) %> 
+    
+</body>
+</html>

@@ -136,7 +136,7 @@ class Controller {
   static photoId(req, res){
     const {id} = req.params
     Photo.findAll({
-        include: {all: true},
+        include: {model: User},
         where: {
             id
         }

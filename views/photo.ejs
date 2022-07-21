@@ -10,7 +10,7 @@
     <%= JSON.stringify(photo) %> 
 
     <img src="/<%= photo.imageUrl %>" width="850px" alt="ini gambar">
-    <p><%= photo.title %> by <%= photo.User.username %></p>
+    <p><%= photo.title %> by <a href="/profile/<%= photo.UserId %>"><%= photo.User.username %></a></p>
     <p><%= photo.imageUrl %></p>
 
 </body>

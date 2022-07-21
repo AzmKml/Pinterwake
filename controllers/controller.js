@@ -128,7 +128,6 @@ class Controller {
     })
     .then(photo=>{
         photo = photo[0]
-       res.send(photo)
         res.render('profile', {category, photo})
     })
     .catch(err=>res.send(err))
@@ -137,7 +136,7 @@ class Controller {
   static photoId(req, res){
     const {id} = req.params
     Photo.findAll({
-        include: User,
+        include: {all: true},
         where: {
             id
         }

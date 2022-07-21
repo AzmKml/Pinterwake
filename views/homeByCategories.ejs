@@ -7,8 +7,8 @@
     <title>Home</title>
 </head>
 <body>
-    <%= JSON.stringify(photo[0].Category.id) %>
-    <form action="/categories/<%= photo.Category.id %>" method="get">
+    <%= JSON.stringify(photo) %>
+    <form action="/categories/<%= photo.CategoryId %>" method="get">
       <label for="search"
         ><input type="search" name="search" id="search" placeholder="Search..."
       /></label>
@@ -22,12 +22,7 @@
     <% } %>
     <a href="/categories/<%= el.id %>"><button><%= el.name %></button></a>
     <% }); %>
-    <% category.forEach((el, i) => { %>
-    <% if(byCategory == el.id){ %>
-      <br><br>
-      <h2><%= el.name %></h2>
-      <% } %>
-      <% }); %>
+
 
     <h2><%= category.name %></h2>
     <br /><br /><br />

@@ -40,14 +40,18 @@ class Controller {
   }
 
   static showByCategories(req, res) {
-    const { byCategory, search } = req.query;
-
+    const { search } = req.query;
+    const { id} = req.params
     let parameter = {
       order: [["createdAt", "DESC"]],
       include: { model: Category },
     };
-    console.log(search, '======');
-
+    
+    
+    if (search) {
+      parameter.where = { title: { [Op.iLike]: `%${search}%` },
+        CategoryId: {id} };
+    }
     let photo;
     Photo.findAll(parameter)
       .then((data) => {
@@ -55,9 +59,8 @@ class Controller {
         return Category.findAll();
       })
       .then((category) => {
-
-        res.render("home", { photo, category, byCategory });
-      });
+        res.render("homeByCategories", { photo, category});
+      })
   }
   static loginPost = (req, res) => {
     const { username, password } = req.body;

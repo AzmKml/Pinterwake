@@ -7,11 +7,41 @@ class Controller {
     res.render("login");
   };
 
-
+   
     static home(req, res){
-        Category.findAll()
+        const {byCategory} = req.query
+        // let category;
+        // let queryPhoto;
+        // if(byCategory){
+        //     queryPhoto = Photo.findAll({
+        //         where: {
+        //             CategoryId: byCategory
+        //         }
+        //     })
+        // }else{
+        //     queryPhoto = Photo.findAll()
+        // }
+        // Category.findAll()
+        // .then(categories=>{
+        //     category = categories
+        //     return queryPhoto
+        // })
+        // .then(photo=>{
+        //     res.render('home', {category,  photo})
+        // })
+        let parameter = {
+            include: {model: Category}}
+        if(byCategory){
+            parameter.where = {CategoryId: byCategory} 
+        }
+        let photo
+        Photo.findAll(parameter)
+        .then(data=>{
+            photo =  data
+            return Category.findAll()
+        })
         .then(category=>{
-        res.render('home', {category})
+            res.render('home', {photo, category})
         })
     }
 
@@ -83,21 +113,20 @@ class Controller {
         .catch(err=>res.send(err))
     });
   }
-//set public folder express
-//surfing static file
-//https://expressjs.com/en/starter/static-files.html
+
   static profilePage(req, res){
     const {id} = req.params
     let category
     Category.findAll()
     .then(categories=>{
         category = categories
-        return Photo.findAll({
-            where: {UserId: id}
+        return User.findAll({
+            include: {all: true,
+            where: {UserId: id}}
         })
     })
     .then(photo=>{
-        
+        photo = photo[0]
         res.render('profile', {category, photo})
     })
     .catch(err=>res.send(err))

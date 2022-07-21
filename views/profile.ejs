@@ -7,16 +7,21 @@
     <title>Profile</title>
 </head>
 <body>
-    <p>Profile Name: </p>
-    <p>Bio :</p>
-    <p>Total likes</p>
-    <p>Total Views</p>
-    <p>List Photo</p>
+    <%= JSON.stringify(photo) %> 
+    <p>Profile Name: <%= photo.Profile.name %></p>
+    <p>Bio : <%= photo.Profile.bio %></p>
+    <p>Total likes: </p>
+    <p>Total Views: </p>
+    <p>List Photo:</p>
+    <% photo.Photos.forEach(el => { %>
+        <img src="/<%= el.imageUrl %>" height="250px" alt="ini gambar">
+    <% }) %> 
 
-    
+    <br><br>
+    <p>Post a Photo</p>
     <form ref='uploadForm' 
     id='uploadForm' 
-    action='/profile/1' 
+    action='/profile/<%= photo.id %>' 
     method='post' 
     encType="multipart/form-data">
     <label for="title">Title: </label><br>
@@ -31,10 +36,8 @@
       </select><br><br>
       <input type='submit' value='Submit' />
     </form>
-    <%= JSON.stringify(photo) %> 
-    <% photo.forEach(el => { %>
-        <img src="<%= el.imageUrl %>" alt="ini gambar">
-    <% }) %> 
     
+
+
 </body>
 </html>

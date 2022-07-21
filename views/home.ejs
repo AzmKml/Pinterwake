@@ -9,7 +9,7 @@
 <body>
 
 
-
+    <%= JSON.stringify(category) %> 
     <form action="/" method="get">
         <label for="name"><input type="search" name="name" id="name" placeholder="Search..."></label>
         <input type="submit" value="Submit">
@@ -18,7 +18,14 @@
         <% if(i % 5 == 0){   %> 
         <br>
         <% } %> 
-        <a href="/categories/<%= el.id %>"><button><%= el.name %></button></a>
-    <% }); %>  
+        <a href="/?byCategory=<%= el.id %>"><button><%= el.name %></button></a>
+    <% }); %> 
+        
+        <h2><%= category.name %></h2>
+    <br><br><br>
+    <% photo.forEach(el => { %>
+        <img src="/<%= el.imageUrl %>" height="250px" alt="ini gambar">
+    <% }) %>
+
 </body>
 </html>

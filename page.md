@@ -42,5 +42,6 @@ tampilkan photo per usernya order by recent upload
 -bio
 -total Likes gathered(?)
 -total Views gathered(?)
+-upload photo
 
 -profile pic (?)

@@ -8,14 +8,21 @@ class Controller {
   };
 
   static home(req, res) {
-    const { byCategory } = req.query;
+    const { byCategory, search } = req.query;
     
     let parameter = {
       order: [["createdAt", "DESC"]],
       include: { model: Category },
     };
     
-    if (byCategory) {
+    if(byCategory && search){
+        parameter.where = {
+           [Op.and]: [
+           { search: { [Op.iLike]: `%${search}%` },
+            byCategory: { CategoryId: byCategory }}
+           ]
+         }
+     }if (byCategory) {
       parameter.where = { CategoryId: byCategory };
     }else if(search){
         parameter.where = { title: { [Op.iLike]: `%${search}%` } }
@@ -27,7 +34,8 @@ class Controller {
         return Category.findAll();
       })
       .then((category) => {
-        res.render("home", { photo, category });
+
+        res.render("home", { photo, category, byCategory });
       });
   }
 

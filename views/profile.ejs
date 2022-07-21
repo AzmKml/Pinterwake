@@ -1,43 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
-</head>
-<body>
-    <%= JSON.stringify(photo) %> 
-    <p>Profile Name: <%= photo.Profile.name %></p>
-    <p>Bio : <%= photo.Profile.bio %></p>
-    <p>Total likes: </p>
-    <p>Total Views: </p>
-    <p>List Photo:</p>
-    <% photo.Photos.forEach(el => { %>
-        <img src="/<%= el.imageUrl %>" height="250px" alt="ini gambar">
-    <% }) %> 
-
-    <br><br>
-    <p>Post a Photo</p>
-    <form ref='uploadForm' 
-    id='uploadForm' 
-    action='/profile/<%= photo.id %>' 
-    method='post' 
-    encType="multipart/form-data">
-    <label for="title">Title: </label><br>
-    <input type="text" name="title" id="title"/><br><br>
-      <input type="file" name="sampleFile" /><br><br>
-      <label for="CategoryId">Category</label><br>
-      <select name="CategoryId" id="CategoryId" >
+  </head>
+  <body>
+    <%= JSON.stringify(photo) %>
+    <p>Profile Name: <%= profile.Profile.name %></p>
+    <p>Bio : <%= profile.Profile.bio %></p>
+    <p>Total likes:</p>
+    <p>Total Views:</p>
+    <p>List photo:</p>
+    <% photo.forEach(el => { %>
+    <img src="/<%= el.imageUrl %>" height="250px" alt="ini gambar" />
+    <% }) %>
+    <br /><br />
+    <p>Post a photo</p>
+    <form
+      ref="uploadForm"
+      id="uploadForm"
+      action="/profile/<%= profile.id %>"
+      method="post"
+      encType="multipart/form-data"
+    >
+      <label for="title">Title: </label><br />
+      <input type="text" name="title" id="title" /><br /><br />
+      <input type="file" name="sampleFile" /><br /><br />
+      <label for="CategoryId">Category</label><br />
+      <select name="CategoryId" id="CategoryId">
         <option selected hidden disabled>--Select--</option>
-        <% category.forEach(el => { %> 
-            <option value="<%= el.id %>"><%= el.name %></option>
-        <% }); %> 
-      </select><br><br>
-      <input type='submit' value='Submit' />
+        <% category.forEach(el => { %>
+        <option value="<%= el.id %>"><%= el.name %></option>
+        <% }); %></select
+      ><br /><br />
+      <input type="submit" value="Submit" />
     </form>
-    
-
-
-</body>
+  </body>
 </html>

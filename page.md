@@ -3,25 +3,30 @@ search by title
 tampilkan list category => show photo by category(click category)
 tampilkan list photo order by recent upload => thumbnail photo(photo di tampilkan lebih kecil dari aslinya)
 
-/register -> user registration (form)
+# /register -> user registration (form) (DONE)
+
 syarat sesuai ERD punya Users
 {username, email, password, role:user(false) by default}
 
-/login -> user login
+# /login -> user login (DONE)
 
 checkStatus apakah dia user terdaftar / tidak.
 
 by default enggak ada tombol vote
--> tapi masih bisa nambah view
+
+- tapi masih bisa nambah view
+
 kalau role == false => (user) maka
--> bisa vote
--> bisa nambah view
--> bisa delete photo sendiri
+
+- bisa vote
+- bisa nambah view
+- bisa delete photo sendiri
+
 kalau role == true => (admin) maka
--> ga bisa vote
--> ga nambah view
--> bisa delete photo sendiri & orang lain (moderation)
-================================================================
+
+- ga bisa vote
+- ga nambah view
+- bisa delete photo sendiri & orang lain (moderation)
 
 /photo/:id -> photo page
 tampilkan photo full resolusi

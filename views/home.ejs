@@ -24,8 +24,11 @@
         <h2><%= category.name %></h2>
     <br><br><br>
     <% photo.forEach(el => { %>
-        <img src="/<%= el.imageUrl %>" height="250px" alt="ini gambar">
+        <a href="/photo/<%= el.id %>">
+            <img src="/<%= el.imageUrl %>" height="250px" alt="ini gambar">
+        </a>
     <% }) %>
+
 
 </body>
 </html>

@@ -30,6 +30,7 @@ class Controller {
         //     res.render('home', {category,  photo})
         // })
         let parameter = {
+            order: [['createdAt', 'DESC']],
             include: {model: Category}}
         if(byCategory){
             parameter.where = {CategoryId: byCategory} 
@@ -122,16 +123,31 @@ class Controller {
         category = categories
         return User.findAll({
             include: {all: true,
-            where: {UserId: id}}
+            where: {UserId: id}},
         })
     })
     .then(photo=>{
         photo = photo[0]
+       res.send(photo)
         res.render('profile', {category, photo})
     })
     .catch(err=>res.send(err))
   }
 
+  static photoId(req, res){
+    const {id} = req.params
+    Photo.findAll({
+        include: User,
+        where: {
+            id
+        }
+    })
+    .then(photo=> {
+        photo = photo[0] 
+        res.render('photo', {photo}
+    )})
+    .catch(err=>res.send(err))
+  } 
 
 }
 

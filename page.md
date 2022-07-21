@@ -1,4 +1,5 @@
-/ -> homepage
+# / -> homepage
+
 search by title
 tampilkan list category => show photo by category(click category)
 tampilkan list photo order by recent upload => thumbnail photo(photo di tampilkan lebih kecil dari aslinya)
@@ -28,6 +29,8 @@ kalau role == true => (admin) maka
 - ga nambah view
 - bisa delete photo sendiri & orang lain (moderation)
 
+---
+
 /photo/:id -> photo page
 tampilkan photo full resolusi
 tampilkan category
@@ -38,7 +41,7 @@ detail photo
 -mau ada likes (?) default 0
 -mau ada views (?) default 0
 
-================================================================
+---
 
 /profile/:id -> User page
 tampilkan photo per usernya order by recent upload

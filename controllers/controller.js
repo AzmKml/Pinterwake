@@ -1,8 +1,7 @@
 const { User, Profile, Category, Photo } = require("../models");
 const { Op } = require("sequelize");
-
 const bcrypt = require("bcryptjs");
-const { search } = require("../routes");
+
 class Controller {
   static login = (req, res) => {
     res.render("login");
@@ -50,8 +49,9 @@ class Controller {
     const { username, password } = req.body;
     User.findOne({ where: { username } })
       .then((user) => {
-        let isNewPassword = bcrypt.compareSync(password, user.password);
-        if (isNewPassword) {
+        let isPassword = bcrypt.compareSync(password, user.password);
+        if (isPassword) {
+          req.session.data = user.id;
           res.redirect("/");
         } else {
           res.send(`password salah`);
@@ -66,7 +66,6 @@ class Controller {
 
   static registerPost = (req, res) => {
     const { username, email, password } = req.body;
-
     User.create({ username, email, password })
       .then(() => res.redirect("/login"))
       .catch((error) => res.send(error));

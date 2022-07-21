@@ -1,21 +1,37 @@
 //init express
 const express = require("express");
-const fileUpload = require("express-fileupload")
+const session = require("express-session");
+const fileUpload = require("express-fileupload");
 const app = express();
 const port = 3000;
 
-
-//init view+bodyparser
-app.use(express.static('upload'))
-app.use(fileUpload());
+//init view
 app.set("view engine", "ejs");
+
+//init static folder
+app.use(express.static("upload"));
+
+//init file upload @express-fileupload
+app.use(fileUpload());
+
+//init body parser
 app.use(express.urlencoded({ extended: true }));
+
 //init router
 const router = require("./routes/index");
 
+//init cookie session
+app.use(
+  session({
+    secret: "pairprojectsahabatku",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false, sameSite: true },
+  })
+);
 
 //! CODE
 app.use(router);
 
 //!LISTENING
-app.listen(3000);
+app.listen(port);

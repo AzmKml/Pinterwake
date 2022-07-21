@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <%= JSON.stringify(photo[0].Category.id) %>
+    <form action="/categories/<%= photo.Category.id %>" method="get">
+      <label for="search"
+        ><input type="search" name="search" id="search" placeholder="Search..."
+      /></label>
+      <input type="submit" value="Submit" />
+    </form>
+<br><br>
+
+    <a href="/"><button>All</button></a>
+    <% category.forEach((el, i) => { %> <% if(i % 5 == 0){ %>
+    <br />
+    <% } %>
+    <a href="/categories/<%= el.id %>"><button><%= el.name %></button></a>
+    <% }); %>
+    <% category.forEach((el, i) => { %>
+    <% if(byCategory == el.id){ %>
+      <br><br>
+      <h2><%= el.name %></h2>
+      <% } %>
+      <% }); %>
+
+    <h2><%= category.name %></h2>
+    <br /><br /><br />
+    <% photo.forEach(el => { %>
+    <a href="/photo/<%= el.id %>">
+      <img src="/<%= el.imageUrl %>" height="250px" alt="ini gambar" />
+      <p><%= el.title %></p>
+    </a>
+    <% }) %>
+  
+
+</body>
+</html>

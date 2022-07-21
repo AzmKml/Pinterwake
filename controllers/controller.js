@@ -40,17 +40,23 @@ class Controller {
   }
 
   static showByCategories(req, res) {
-    const { id } = req.params;
-    let categoryId;
-    Category.findOne({
-      where: { id },
-    })
-      .then((category) => {
-        categoryId = category;
+    const { byCategory, search } = req.query;
+
+    let parameter = {
+      order: [["createdAt", "DESC"]],
+      include: { model: Category },
+    };
+    console.log(search, '======');
+
+    let photo;
+    Photo.findAll(parameter)
+      .then((data) => {
+        photo = data;
         return Category.findAll();
       })
-      .then((categories) => {
-        res.render("homeByCategories", { categoryId, categories });
+      .then((category) => {
+
+        res.render("home", { photo, category, byCategory });
       });
   }
   static loginPost = (req, res) => {
@@ -190,6 +196,37 @@ class Controller {
     })
       .then(() => res.redirect(`/`))
       .catch((err) => res.send(err));
+  }
+
+  static homeByCategory(req, res){
+    const { byCategory, search } = req.query;
+    console.log(byCategory, req.query, '=====');
+    let parameter = {
+      order: [["createdAt", "DESC"]],
+      include: { model: Category },
+    };
+    
+    if(byCategory && search){
+        parameter.where = {
+           [Op.and]: [
+           { search: { [Op.iLike]: `%${search}%` },
+            byCategory: { CategoryId: byCategory }}
+           ]
+         }
+    //  }else if (byCategory) {
+    //   parameter.where = { CategoryId: byCategory };
+    // } else if (search) {
+    //   parameter.where = { title: { [Op.iLike]: `%${search}%` } };
+    }
+    let photo;
+    Photo.findAll(parameter)
+      .then((data) => {
+        photo = data;
+        return Category.findAll();
+      })
+      .then((category) => {
+        res.render("homeByCategories", { photo, category, byCategory });
+      });
   }
 }
 

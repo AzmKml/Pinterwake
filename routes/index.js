@@ -6,6 +6,7 @@ router.use(express.static("../upload"));
 
 //HOME
 router.get("/", Controller.home);
+// router.get('/search', Controller.homeByCategory)
 router.get("/categories/:id", Controller.showByCategories);
 
 //REGISTER

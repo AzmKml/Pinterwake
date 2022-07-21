@@ -22,6 +22,9 @@ router.post("/register", Controller.registerPost);
 router.get('/profile/:id', Controller.profilePage)
 router.post('/profile/:id', Controller.uploadedFile)
 
+//PHOTO
+router.get('/photo/:id', Controller.photoId)
+
 
 
 module.exports = router;

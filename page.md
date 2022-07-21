@@ -10,9 +10,8 @@ syarat sesuai ERD punya Users
 /login -> user login
 
 checkStatus apakah dia user terdaftar / tidak.
-2 params (role)
-kalau role == null => (guest) maka
--> tidak bisa vote
+
+by default enggak ada tombol vote
 -> tapi masih bisa nambah view
 kalau role == false => (user) maka
 -> bisa vote

@@ -11,6 +11,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Profile.belongsTo(models.User);
     }
+     honorificName(){
+      let honorific = 'Mr.'
+      if(this.gender === 'Female'){
+        honorific = 'Mrs.'
+      }
+      honorific = `${honorific} ${this.name}`
+      return honorific
+    }
   }
   Profile.init(
     {

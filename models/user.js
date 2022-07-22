@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.Profile);
       User.hasMany(models.Photo);
     }
+
+
   }
   User.init(
     {

@@ -39,7 +39,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       CategoryId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: `Category cannot be empty` },
+          notNull: { msg: `Category cannot be empty`}
+        }
+        
       },
     },
     {

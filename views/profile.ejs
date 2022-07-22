@@ -7,8 +7,8 @@
     <title>Profile</title>
   </head>
   <body>
-    <%= JSON.stringify(photo) %>
-    <p>Profile Name: <%= profile.Profile.name %></p>
+    <%= JSON.stringify(profile) %>
+    <p>Profile Name: <%= profile.Profile.honorificName() %></p>
     <p>Bio : <%= profile.Profile.bio %></p>
     <p>Total likes:</p>
     <p>Total Views:</p>

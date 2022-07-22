@@ -1,6 +1,7 @@
 const { User, Profile, Category, Photo } = require("../models");
 const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
+const since = require('../helpers/since')
 
 class Controller {
   static login = (req, res) => {
@@ -121,7 +122,7 @@ class Controller {
 
   static profilePage(req, res) {
     const { id } = req.params;
-    let category, profile;
+    let category, profile, photo;
     Category.findAll()
       .then((categories) => {
         category = categories;
@@ -139,7 +140,16 @@ class Controller {
           where: { UserId: id },
         });
       })
-      .then((photo) => {
+      .then((data) => {
+        photo = data
+      //   console.log(category, profile);
+      //   return Photo.findAll({
+      //     include: User,
+      //     where: {UserId: id},
+      //     attributes: [[sequelize.fn('sum', sequelize.col('view')), 'totalLike']]
+      //   })
+      // }).then((data)=>{
+      //   console.log(data);
         res.render("profile", { category, profile, photo });
       })
       .catch((err) => res.send(err));
@@ -172,7 +182,7 @@ class Controller {
         }
         return Photo.increment({ view: 1 }, { where: { id } });
       })
-      .then(() => res.render("photo", { photo, isUser }))
+      .then(() => res.render("photo", { photo, isUser, since }))
       .catch((err) => res.send(err));
   }
 
@@ -184,10 +194,8 @@ class Controller {
         where: {id}
     })
       .then((data) => {
-        console.log(result, '<<<<<<<');
         result = data
         result.view = result.view - 1
-        console.log(result, '>>>>>>>');
         return Photo.update({view: result.view},
         {where: {id}}) 
     })

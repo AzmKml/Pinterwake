@@ -4,10 +4,6 @@ const router = express.Router();
 
 router.use(express.static("../upload"));
 
-// //HOME
-// router.get("/", Controller.home);
-// router.get("/categories/:id", Controller.showByCategories);
-
 //LOGIN
 router.get("/login", Controller.login);
 router.post("/login", Controller.loginPost);

@@ -102,8 +102,22 @@ class Controller {
   };
 
   static registerPost = (req, res) => {
+    console.log("masuk ke registerPost");
     const { username, email, password } = req.body;
     User.create({ username, email, password })
+      .then((data) => {
+        console.log(data);
+        const result = {
+          name: "Foo Bar",
+          dateOfBirth: data.createdAt,
+          gender: "Male",
+          bio: "Lorem Ipsum",
+          UserId: data.id,
+          CreatedAt: new Date(),
+          UpdatedAt: new Date(),
+        };
+        return Profile.create(result);
+      })
       .then(() => res.redirect("/login"))
       .catch((error) => res.send(error));
   };

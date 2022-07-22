@@ -142,15 +142,10 @@ class Controller {
       })
       .then((data) => {
         photo = data
-      //   console.log(category, profile);
-      //   return Photo.findAll({
-      //     include: User,
-      //     where: {UserId: id},
-      //     attributes: [[sequelize.fn('sum', sequelize.col('view')), 'totalLike']]
-      //   })
-      // }).then((data)=>{
-      //   console.log(data);
-        res.render("profile", { category, profile, photo });
+        console.log('masuk1');
+        return Photo.sumLikeView(id)
+      }).then((likeView)=>{
+        res.render("profile", { category, profile, photo, likeView });
       })
       .catch((err) => res.send(err));
   }
@@ -224,6 +219,15 @@ class Controller {
     })
       .then(() => res.redirect(`/`))
       .catch((err) => res.send(err));
+  }
+
+  static cek(req, res){
+    Photo.sumLikeView(1)
+      .then((data1)=>{
+        console.log('masuk2');
+        console.log(data1);
+        res.send(data1)
+      })
   }
 }
 

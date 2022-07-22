@@ -10,8 +10,8 @@
     <%= JSON.stringify(profile) %>
     <p>Profile Name: <%= profile.Profile.honorificName() %></p>
     <p>Bio : <%= profile.Profile.bio %></p>
-    <p>Total likes:</p>
-    <p>Total Views:</p>
+    <p>Total likes: <%= likeView[0].like  %></p>
+    <p>Total Views: <%= likeView[0].view  %></p>
     <p>List photo:</p>
     <% photo.forEach(el => { %>
       <section>

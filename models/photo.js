@@ -12,6 +12,17 @@ module.exports = (sequelize, DataTypes) => {
       Photo.belongsTo(models.User);
       Photo.belongsTo(models.Category);
     }
+
+    static sumLikeView(UserId){
+      return this.findAll({
+        where: {UserId},
+        attributes: [
+          [sequelize.fn('sum', sequelize.col('like')), 'like'],
+          [sequelize.fn('sum', sequelize.col('view')), 'view']
+        ]
+      })
+    }
+
   }
   Photo.init(
     {

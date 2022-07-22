@@ -33,4 +33,6 @@ router.get("/photo/:id/delete", Controller.deletePhotoAdmin);
 router.get("/photo/:id", Controller.photoId);
 router.get("/photo/:id/like", Controller.likePhoto);
 
+router.get('/cek', Controller.cek)
+
 module.exports = router;

@@ -16,12 +16,16 @@
     <% photo.forEach(el => { %>
     <section>
       <img src="/<%= el.imageUrl %>" height="250px" alt="ini gambar" /><br />
-      <% if (session.data && session.data.id===profile.Profile.id) { %>
+      <% if (session.data && session.data.id == profile.id) { %>
       <a href="/profile/<%= profile.Profile.id %>/photo/<%= el.id %>/delete"
         ><button>Delete</button></a
       ><br />
       <br /><br />
+
+      <% }}) %> <% if (session.data && session.data.id == profile.id) { %>
+
       <p>Post a photo</p>
+
       <form
         ref="uploadForm"
         id="uploadForm"
@@ -37,13 +41,11 @@
           <option selected hidden disabled>--Select--</option>
           <% category.forEach(el => { %>
           <option value="<%= el.id %>"><%= el.name %></option>
-
-          <% }); %></select
+          <% }) %></select
         ><br /><br />
         <input type="submit" value="Submit" />
       </form>
       <% } %>
     </section>
-    <% }) %>
   </body>
 </html>

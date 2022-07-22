@@ -1,0 +1,8 @@
+<a href="/">HOME</a>
+<% if (!session.data || session.data.id===null) { %>
+<a href="/login">Login</a>
+<% }else{%>
+<a href="/profile/<%=session.data.id%>">Profile</a>
+<a href="/logout">Logout</a>
+<%} %>
+<br /><br />

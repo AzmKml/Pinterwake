@@ -7,17 +7,19 @@
     <title>Profile</title>
   </head>
   <body>
-    <%= JSON.stringify(profile) %>
+    <%- include('./partials/navbar')%> <%= JSON.stringify(profile) %>
     <p>Profile Name: <%= profile.Profile.honorificName() %></p>
     <p>Bio : <%= profile.Profile.bio %></p>
     <p>Total likes:</p>
     <p>Total Views:</p>
     <p>List photo:</p>
     <% photo.forEach(el => { %>
-      <section>
-    <img src="/<%= el.imageUrl %>" height="250px" alt="ini gambar" /><br>
-    <a href="/profile/<%= profile.Profile.id %>/photo/<%= el.id %>/delete"><button>Delete</button></a><br>
-  </section>
+    <section>
+      <img src="/<%= el.imageUrl %>" height="250px" alt="ini gambar" /><br />
+      <a href="/profile/<%= profile.Profile.id %>/photo/<%= el.id %>/delete"
+        ><button>Delete</button></a
+      ><br />
+    </section>
     <% }) %>
     <br /><br />
     <p>Post a photo</p>
@@ -36,7 +38,7 @@
         <option selected hidden disabled>--Select--</option>
         <% category.forEach(el => { %>
         <option value="<%= el.id %>"><%= el.name %></option>
-                           
+
         <% }); %></select
       ><br /><br />
       <input type="submit" value="Submit" />

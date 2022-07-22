@@ -7,6 +7,7 @@
     <title>Home</title>
   </head>
   <body>
+    <%- include('./partials/navbar')%>
     <form action=<%= byCategory ? "/search" : "/" %> method="get">
       <label for="search"
         ><input type="search" name="search" id="search" placeholder="Search..."

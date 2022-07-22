@@ -4,10 +4,9 @@ const router = express.Router();
 
 router.use(express.static("../upload"));
 
-//HOME
-router.get("/", Controller.home);
-// router.get('/search', Controller.homeByCategory)
-router.get("/categories/:id", Controller.showByCategories);
+// //HOME
+// router.get("/", Controller.home);
+// router.get("/categories/:id", Controller.showByCategories);
 
 //REGISTER
 router.get("/register", Controller.register);
@@ -23,6 +22,10 @@ router.use(function (req, res, next) {
   next();
 });
 
+//HOME
+router.get("/", Controller.home);
+router.get("/categories/:id", Controller.showByCategories);
+
 //PROFILE
 router.get("/profile/:id", Controller.profilePage);
 router.post("/profile/:id", Controller.uploadedFile);
@@ -32,5 +35,8 @@ router.get("/photo/:id/delete", Controller.deletePhotoAdmin);
 //PHOTO
 router.get("/photo/:id", Controller.photoId);
 router.get("/photo/:id/like", Controller.likePhoto);
+
+//LOGOUT
+router.get("/logout", Controller.logout);
 
 module.exports = router;

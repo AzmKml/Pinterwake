@@ -7,41 +7,43 @@
     <title>Profile</title>
   </head>
   <body>
-    <%- include('./partials/navbar')%> <%= JSON.stringify(profile) %>
+    <%- include('./partials/navbar')%>
     <p>Profile Name: <%= profile.Profile.honorificName() %></p>
     <p>Bio : <%= profile.Profile.bio %></p>
-    <p>Total likes: <%= likeView[0].like  %></p>
-    <p>Total Views: <%= likeView[0].view  %></p>
+    <p>Total likes: <%= likeView[0].like %></p>
+    <p>Total Views: <%= likeView[0].view %></p>
     <p>List photo:</p>
     <% photo.forEach(el => { %>
     <section>
       <img src="/<%= el.imageUrl %>" height="250px" alt="ini gambar" /><br />
+      <% if (session.data && session.data.id===profile.Profile.id) { %>
       <a href="/profile/<%= profile.Profile.id %>/photo/<%= el.id %>/delete"
         ><button>Delete</button></a
       ><br />
+      <br /><br />
+      <p>Post a photo</p>
+      <form
+        ref="uploadForm"
+        id="uploadForm"
+        action="/profile/<%= profile.id %>"
+        method="post"
+        encType="multipart/form-data"
+      >
+        <label for="title">Title: </label><br />
+        <input type="text" name="title" id="title" /><br /><br />
+        <input type="file" name="sampleFile" /><br /><br />
+        <label for="CategoryId">Category</label><br />
+        <select name="CategoryId" id="CategoryId">
+          <option selected hidden disabled>--Select--</option>
+          <% category.forEach(el => { %>
+          <option value="<%= el.id %>"><%= el.name %></option>
+
+          <% }); %></select
+        ><br /><br />
+        <input type="submit" value="Submit" />
+      </form>
+      <% } %>
     </section>
     <% }) %>
-    <br /><br />
-    <p>Post a photo</p>
-    <form
-      ref="uploadForm"
-      id="uploadForm"
-      action="/profile/<%= profile.id %>"
-      method="post"
-      encType="multipart/form-data"
-    >
-      <label for="title">Title: </label><br />
-      <input type="text" name="title" id="title" /><br /><br />
-      <input type="file" name="sampleFile" /><br /><br />
-      <label for="CategoryId">Category</label><br />
-      <select name="CategoryId" id="CategoryId">
-        <option selected hidden disabled>--Select--</option>
-        <% category.forEach(el => { %>
-        <option value="<%= el.id %>"><%= el.name %></option>
-
-        <% }); %></select
-      ><br /><br />
-      <input type="submit" value="Submit" />
-    </form>
   </body>
 </html>

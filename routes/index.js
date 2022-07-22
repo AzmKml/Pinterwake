@@ -33,6 +33,7 @@ router.get("/photo/:id", Controller.photoId);
 router.get("/photo/:id/like", Controller.likePhoto);
 
 router.get("/cek", Controller.cek);
+
 //LOGOUT
 router.get("/logout", Controller.logout);
 

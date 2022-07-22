@@ -63,7 +63,6 @@ class Controller {
         return Category.findAll();
       })
       .then((category) => {
-        // res.send(photo)
         res.render("homeByCategories", { photo, category, session });
       });
   }

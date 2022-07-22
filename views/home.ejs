@@ -4,17 +4,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css">
     <title>Home</title>
   </head>
   <body>
     <%- include('./partials/navbar')%>
-    <form action=<%= byCategory ? "/search" : "/" %> method="get">
-      <label for="search"
-        ><input type="search" name="search" id="search" placeholder="Search..."
-      /></label>
-      <input type="submit" value="Submit" />
-    </form>
-<br><br>
+    <div class='search'>
+      <form action=<%= byCategory ? "/search" : "/" %> method="get">
+        <label for="search"
+          ><input type="search" name="search" id="search" placeholder="Search..."
+        /></label>
+        <input type="submit" value="Submit" />
+      </form>
+    <br><br>
+    </div>
+
 
     <a href="/"><button>All</button></a>
     <% category.forEach((el, i) => { %> <% if(i % 5 == 0){ %>

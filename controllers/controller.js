@@ -94,7 +94,11 @@ class Controller {
   };
 
   static register = (req, res) => {
-    res.render("registration");
+    if (!req.session) {
+      req.session.data = { id: null, role: null };
+    }
+    const session = req.session;
+    res.render("registration", { session });
   };
 
   static registerPost = (req, res) => {
@@ -155,11 +159,12 @@ class Controller {
         });
       })
       .then((data) => {
-        photo = data
-        console.log('masuk1');
-        return Photo.sumLikeView(id)
-      }).then((likeView)=>{
-        res.render("profile", { category, profile, photo, likeView });
+        photo = data;
+        console.log("masuk1");
+        return Photo.sumLikeView(id);
+      })
+      .then((likeView) => {
+        res.render("profile", { category, profile, photo, likeView, session });
       })
       .catch((err) => res.send(err));
   }
@@ -231,13 +236,12 @@ class Controller {
       .catch((err) => res.send(err));
   }
 
-  static cek(req, res){
-    Photo.sumLikeView(1)
-      .then((data1)=>{
-        console.log('masuk2');
-        console.log(data1);
-        res.send(data1)
-      })
+  static cek(req, res) {
+    Photo.sumLikeView(1).then((data1) => {
+      console.log("masuk2");
+      console.log(data1);
+      res.send(data1);
+    });
   }
 }
 

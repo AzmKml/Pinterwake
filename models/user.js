@@ -1,6 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 const bcrypt = require("bcryptjs");
+const { Profile } = require("../models");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -13,8 +14,6 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.Profile);
       User.hasMany(models.Photo);
     }
-
-
   }
   User.init(
     {
@@ -58,6 +57,17 @@ module.exports = (sequelize, DataTypes) => {
           var salt = bcrypt.genSaltSync(10);
           var hash = bcrypt.hashSync(user.password, salt);
           user.password = hash;
+          //add default profile:
+          const data = {
+            name: "Foo Bar",
+            dateOfBirth: user.CreatedAt,
+            gender: "Male",
+            bio: "Lorem Ipsum",
+            UserId: user.id,
+            CreatedAt: new Date(),
+            UpdatedAt: new Date(),
+          };
+          Profile.create(data);
         },
         afterCreate: (user, option) => {
           delete user.password;

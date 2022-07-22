@@ -8,10 +8,6 @@ router.use(express.static("../upload"));
 // router.get("/", Controller.home);
 // router.get("/categories/:id", Controller.showByCategories);
 
-//REGISTER
-router.get("/register", Controller.register);
-router.post("/register", Controller.registerPost);
-
 //LOGIN
 router.get("/login", Controller.login);
 router.post("/login", Controller.loginPost);
@@ -21,6 +17,10 @@ router.use(function (req, res, next) {
   //kalau session ada. berikan parameter yang bisa mengaktifkan vote dan view++
   next();
 });
+
+//REGISTER
+router.get("/register", Controller.register);
+router.post("/register", Controller.registerPost);
 
 //HOME
 router.get("/", Controller.home);
@@ -36,7 +36,7 @@ router.get("/photo/:id/delete", Controller.deletePhotoAdmin);
 router.get("/photo/:id", Controller.photoId);
 router.get("/photo/:id/like", Controller.likePhoto);
 
-router.get('/cek', Controller.cek)
+router.get("/cek", Controller.cek);
 //LOGOUT
 router.get("/logout", Controller.logout);
 

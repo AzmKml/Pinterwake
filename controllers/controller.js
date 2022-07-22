@@ -1,7 +1,7 @@
 const { User, Profile, Category, Photo } = require("../models");
 const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
-const since = require('../helpers/since')
+const since = require("../helpers/since");
 
 class Controller {
   static login = (req, res) => {
@@ -10,20 +10,23 @@ class Controller {
 
   static home(req, res) {
     const { byCategory, search } = req.query;
-    
+    const session = req.session;
     let parameter = {
       order: [["createdAt", "DESC"]],
       include: { model: Category },
     };
-    
-    if(byCategory && search){
-        parameter.where = {
-           [Op.and]: [
-           { search: { [Op.iLike]: `%${search}%` },
-            byCategory: { CategoryId: byCategory }}
-           ]
-         }
-     }if (byCategory) {
+
+    if (byCategory && search) {
+      parameter.where = {
+        [Op.and]: [
+          {
+            search: { [Op.iLike]: `%${search}%` },
+            byCategory: { CategoryId: byCategory },
+          },
+        ],
+      };
+    }
+    if (byCategory) {
       parameter.where = { CategoryId: byCategory };
     } else if (search) {
       parameter.where = { title: { [Op.iLike]: `%${search}%` } };
@@ -35,35 +38,34 @@ class Controller {
         return Category.findAll();
       })
       .then((category) => {
-
-        res.render("home", { photo, category, byCategory });
+        res.render("home", { photo, category, byCategory, session });
       });
   }
 
   static showByCategories(req, res) {
     const { search } = req.query;
-    const { id} = req.params
+    const { id } = req.params;
+    const session = req.session;
     let parameter = {
-        where: { CategoryId: id },
+      where: { CategoryId: id },
       order: [["createdAt", "DESC"]],
       include: { model: Category },
     };
-    console.log(id, search, '=====================');
     if (search) {
-      parameter.where = { [Op.and]: 
-        [{title: { [Op.iLike]: `%${search}%` },
-        CategoryId: id}] };
+      parameter.where = {
+        [Op.and]: [{ title: { [Op.iLike]: `%${search}%` }, CategoryId: id }],
+      };
     }
     let photo;
     Photo.findAll(parameter)
       .then((data) => {
-        photo = data
+        photo = data;
         return Category.findAll();
       })
       .then((category) => {
         // res.send(photo)
-        res.render("homeByCategories", { photo, category});
-      })
+        res.render("homeByCategories", { photo, category, session });
+      });
   }
   static loginPost = (req, res) => {
     const { username, password } = req.body;
@@ -81,6 +83,16 @@ class Controller {
       .catch((error) => res.send(error));
   };
 
+  static logout = (req, res) => {
+    req.session.destroy((error) => {
+      if (error) {
+        res.send(error);
+      } else {
+        res.redirect("/");
+      }
+    });
+  };
+
   static register = (req, res) => {
     res.render("registration");
   };
@@ -95,7 +107,6 @@ class Controller {
   static uploadedFile(req, res) {
     let sampleFile;
     let uploadPath;
-
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were uploaded.");
     }
@@ -123,6 +134,8 @@ class Controller {
   static profilePage(req, res) {
     const { id } = req.params;
     let category, profile, photo;
+    const session = req.session;
+
     Category.findAll()
       .then((categories) => {
         category = categories;
@@ -135,6 +148,7 @@ class Controller {
       })
       .then((dataProfile) => {
         profile = dataProfile[0];
+        console.log(dataProfile);
         return Photo.findAll({
           include: User,
           where: { UserId: id },
@@ -152,12 +166,11 @@ class Controller {
 
   static photoId(req, res) {
     const { id } = req.params;
-    console.log("ini ada");
+    const session = req.session;
     //check if already logged in or not (guest)
     if (!req.session.data) {
       req.session.data = { id: null, role: null };
     }
-    console.log(req.session);
     let photo, isUser;
     Photo.findAll({
       include: { model: User },
@@ -177,33 +190,31 @@ class Controller {
         }
         return Photo.increment({ view: 1 }, { where: { id } });
       })
-      .then(() => res.render("photo", { photo, isUser, since }))
+      .then(() => res.render("photo", { photo, isUser, since, session }))
       .catch((err) => res.send(err));
   }
 
   static likePhoto(req, res) {
     const { id } = req.params;
     let result;
-    
+
     Photo.findOne({
-        where: {id}
+      where: { id },
     })
       .then((data) => {
-        result = data
-        result.view = result.view - 1
-        return Photo.update({view: result.view},
-        {where: {id}}) 
-    })
-    .then((data)=>{
-        return Photo.increment({ like: 1 }, { where: { id } })
-    })
-    .then(()=>res.redirect(`/photo/${id}`))
+        result = data;
+        result.view = result.view - 1;
+        return Photo.update({ view: result.view }, { where: { id } });
+      })
+      .then((data) => {
+        return Photo.increment({ like: 1 }, { where: { id } });
+      })
+      .then(() => res.redirect(`/photo/${id}`))
       .catch((err) => res.send(err));
   }
 
   static deletePhoto(req, res) {
     const { profileId, photoId } = req.params;
-    console.log(req.params);
     Photo.destroy({
       where: { id: photoId },
     })
@@ -213,7 +224,6 @@ class Controller {
 
   static deletePhotoAdmin(req, res) {
     const { id } = req.params;
-    console.log(req.params);
     Photo.destroy({
       where: { id },
     })
